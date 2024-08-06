@@ -5,7 +5,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
+// import Link from "@mui/material/Link";
+import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -21,7 +22,7 @@ import axios from "axios";
 
 const defaultTheme = createTheme();
 
-export default function SignUp() {
+export default function ConsumerSignUp() {
   const navigate = useNavigate();
   const [details, setDetails] = React.useState({
     email: "",
@@ -44,7 +45,7 @@ export default function SignUp() {
         console.log("Success:", response.data);
 
         setTimeout(() => {
-          navigate("/");
+          navigate("/consumersignin");
         }, 2000);
       })
       .catch((error) => {
@@ -156,13 +157,12 @@ export default function SignUp() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              href="/signin"
             >
               Sign Up
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/signin" variant="body2">
+                <Link href="/consumersignin" variant="body2">
                 Already have an account? Sign in
                 </Link>
               </Grid>

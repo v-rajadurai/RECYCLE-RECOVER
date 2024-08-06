@@ -1,8 +1,8 @@
 import React from 'react';
-import './ragService.css';
+import './consumerService.css';
 import Navbar from '../Navbar/Navbar';
 
-const RagService = () => {
+const ConsumerService = () => {
   return (
     <>
     <Navbar/>
@@ -41,11 +41,13 @@ const RagService = () => {
           </div>
         </section>
       </main>
-      
-      
-    <Footer/>
+      <footer className="footer">
+        <div className="container">
+          {/* Footer content can be added here */}
+        </div>
+      </footer>
     </>
   );
 }
 
-export default RagService;
+export default ConsumerService;

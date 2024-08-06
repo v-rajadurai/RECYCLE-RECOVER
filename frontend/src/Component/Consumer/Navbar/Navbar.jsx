@@ -2,7 +2,7 @@ import { AppBar, Button, MenuItem, Toolbar, Typography, Menu } from '@mui/materi
 import { Link } from 'react-router-dom'
 import React, { useState } from 'react'
 import { Avatar } from '@mui/material';
-
+import image from '../../../assets/profile.jpg'
 const Navbar = () => {
   const [profile, setProfile] = useState(null);
 
@@ -26,7 +26,7 @@ const Navbar = () => {
           alignItems: "center"
         }}
       >
-        <Link to="/home" className="logo">
+        <Link to="/consumerhome" className="logo">
           <img
             src="../../../../src/assets/logo-no-background.png"
             style={{ width: '12rem' }}
@@ -40,28 +40,28 @@ const Navbar = () => {
             alignItems: "center",
           }}
         >
-          <Link to="/home">
+          <Link to="/consumerhome">
           <Typography sx={{ fontWeight: '550' }}>Home</Typography>
           </Link>
-          <Link to="/ragabout">
-          <Typography sx={{ fontWeight: '550' }}>RagPicker</Typography>
+          {/* <Link to="/consumerabout">
+          <Typography sx={{ fontWeight: '550' }}>About Us</Typography>
           </Link>
-          <Link to="/ragservice">
+          <Link to="/consumerservice">
           <Typography sx={{ fontWeight: '550' }}>Service</Typography>
-          </Link>
-          <Link to="/findrequest">
-          <Typography sx={{ fontWeight: '550' }}>Request</Typography>
+          </Link> */}
+          <Link to="/consumerfind">
+          <Typography sx={{ fontWeight: '550' }}>Consumer</Typography>
           </Link>
 
           <Button onClick={handleClick}>
-            <Avatar alt="Remy Sharp"  />
+            <Avatar alt="Remy Sharp" src={image} />
           </Button>
-          <Menu
+          <Menu 
             anchorEl={profile}
             open={Boolean(profile)}
             onClose={handleClose}
           >
-            <Link to="/ragprofile">
+            <Link to="/consumerprofile">
             <MenuItem onClick={handleClose}>Profile</MenuItem>
             </Link>
             <Link to="/">

@@ -5,7 +5,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
+import { Link } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { useMediaQuery, InputAdornment, Snackbar, Alert } from "@mui/material";
@@ -18,10 +18,10 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import NightsStayIcon from "@mui/icons-material/NightsStay";
-import rag from "../Authorization/rag.jpg";
+import Recycle from "../Authorization/rr.webp";
 import axios from "axios";
 
-export default function SignIn() {
+export default function ConsumerSignIn() {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const [darkMode, setDarkMode] = useState(prefersDarkMode);
   const [showPassword, setShowPassword] = useState(false);
@@ -71,7 +71,7 @@ export default function SignIn() {
         setSnackbarMessage("Login successfully");
         setSnackbarSeverity("success");
         setTimeout(() => {
-          window.location.href = "/home";
+          window.location.href = "/consumerhome";
         }, 1500);
       } else {
         setSnackbarMessage("Invalid username or password");
@@ -106,7 +106,7 @@ export default function SignIn() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: `url(${rag})`,
+            backgroundImage: `url(${Recycle})`,
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"
@@ -189,7 +189,10 @@ export default function SignIn() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
+                {/* <Link href="/consumerhome"> */}
                 Sign In
+                {/* </Link> */}
+                
               </Button>
               <Grid container>
                 <Grid item xs>
@@ -198,8 +201,8 @@ export default function SignIn() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="/signup" variant="body2">
-                    {"Don't have an account? Sign Up"}
+                  <Link to="/consumersignup" variant="body2">
+                    Don't have an account? Sign Up
                   </Link>
                 </Grid>
               </Grid>
