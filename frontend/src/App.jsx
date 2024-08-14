@@ -18,11 +18,14 @@ import Picker from './Component/Consumer/Find/Picker.jsx';
 import RagPosting from './Component/Consumer/Find/RagPosting.jsx';
 import Navbar from './Component/Rag/Navbar/Navbar.jsx';
 import Frontpage from './Component/Frontpage.jsx';
+import { AuthProvider } from './Component/AuthContext.jsx';
 
 // import Navbar from './Component/Consumer/Navbar/Navbar.jsx';
 
 function App() {
   return (
+    <AuthProvider>
+
     <BrowserRouter>
     {/* <Navbar/> */}
       <Routes>
@@ -34,6 +37,7 @@ function App() {
         <Route path="/consumerfind" element={<RagPosting/>} />
         <Route path="/consumerprofile" element={<ConsumerProfile/>} />
         <Route path="/consumerservice" element={<ConsumerService/>} />
+        <Route path="/contact" element={<ConsumerService/>} />
 
         <Route path="/home" element={<Home />} />
         <Route path="/signin" element={<RagSignIn />} />
@@ -44,6 +48,7 @@ function App() {
         <Route path="/ragservice" element={<RagService />} />
       </Routes>
     </BrowserRouter>
+    </AuthProvider>
   );
 }
 

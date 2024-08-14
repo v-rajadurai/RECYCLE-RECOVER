@@ -15,7 +15,7 @@ export default function Welcome() {
         </p>
 
         <div className="change">
-          <button className="solid">Consumer</button>
+          <button className="solid" >Consumer</button>
 
           <button className="but">Ragpickers</button>
         </div>

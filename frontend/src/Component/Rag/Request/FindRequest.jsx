@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import axios from "axios";
 import Navbar from "../Navbar/Navbar";
-
+import Swal from "sweetalert2";
 export default function FindRequest() {
   const [users, setUsers] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
@@ -37,13 +37,34 @@ export default function FindRequest() {
     setOpenDialog(false);
   };
 
-  const handleAcceptClick = (id) => {
+  const handleAcceptClick = (id, email) => {
     axios.delete(`http://localhost:8080/ecoconnect/deleteRag/${id}`)
       .then(response => {
         console.log('Delete successful');
         setUsers((currentUsers) => currentUsers.filter((user) => user.id !== id));
         setSelectedUserId(id);
         setOpenDialog(true);
+        Swal.fire({
+          // position: "top-end",
+          icon: "success",
+          title: "🎉 Order Accepted 🎉",
+          showConfirmButton: false,
+          text:'  Your order has been successfully accepted. Thank you for your contribution',
+          timer:3000
+          
+        });
+        // Send email after successfully deleting the record
+        axios.post('http://localhost:8080/sendMail', null, {
+          params: {
+            email: email
+          }
+        })
+        .then(response => {
+          console.log('Email sent successfully:', response.data);
+        })
+        .catch(error => {
+          console.error('Error sending email:', error);
+        });
       })
       .catch(error => {
         console.error('Error deleting rag:', error);
@@ -52,7 +73,7 @@ export default function FindRequest() {
 
   return (
     <>
-    <Navbar/>
+      <Navbar />
       <Box
         sx={{
           display: 'flex',
@@ -93,7 +114,7 @@ export default function FindRequest() {
                       fullWidth="md"
                       variant="contained"
                       color="success"
-                      onClick={() => handleAcceptClick(user.id)}
+                      onClick={() => handleAcceptClick(user.id, user.email)}
                     >
                       Accept
                     </Button>
@@ -105,7 +126,7 @@ export default function FindRequest() {
         </TableContainer>
       </div>
 
-      <Dialog open={openDialog} onClose={handleClose}>
+      {/* <Dialog open={openDialog} onClose={handleClose}>
         <DialogTitle sx={{ backgroundColor: '#4caf50', color: '#fff' }}>
           Order Accepted 🎉
         </DialogTitle>
@@ -120,7 +141,7 @@ export default function FindRequest() {
             Close
           </Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
     </>
   );
 }

@@ -11,9 +11,9 @@ const ConsumerService = () => {
           <h1 className="headerTitle">RECYCLE RECOVER</h1>
           <nav className="nav">
             <ul className="navList">
-              <li className="navItem"><a className="navLink" href="#reduce">Reduce</a></li>
-              <li className="navItem"><a className="navLink" href="#reuse">Reuse</a></li>
-              <li className="navItem"><a className="navLink" href="#recycle">Recycle</a></li>
+              <li className="navItem"><a className="navLink" to="#reduce">Reduce</a></li>
+              <li className="navItem"><a className="navLink" to="#reuse">Reuse</a></li>
+              <li className="navItem"><a className="navLink" to="#recycle">Recycle</a></li>
             </ul>
           </nav>
         </div>

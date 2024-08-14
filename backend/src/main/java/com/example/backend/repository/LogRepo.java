@@ -10,5 +10,4 @@ import com.example.backend.model.LoginModel;
 @Repository
 public interface LogRepo extends JpaRepository<LoginModel, String> {
     Optional<LoginModel> findByEmailAndPass(String email, String pass);
-
 }

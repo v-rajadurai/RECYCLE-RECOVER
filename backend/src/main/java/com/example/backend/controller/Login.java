@@ -1,65 +1,57 @@
 package com.example.backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.backend.model.LoginModel;
 import com.example.backend.service.LogService;
 
-@CrossOrigin("http://localhost:5173/")
+import java.util.List;
+
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:5173") // Allow CORS for this origin
 public class Login {
 
     @Autowired
-    
-     private LogService logser;
-    @PostMapping("/save")
-    private boolean pos(@RequestBody LoginModel log) {
-        return logser.saveLogin(log);
+    private LogService logService;
+
+    @PostMapping("/register")
+    public boolean register(@RequestBody LoginModel loginModel) {
+        return logService.registerUser(loginModel);
     }
 
     @GetMapping("/auth")
-    public boolean autho(@RequestParam String email, @RequestParam String password) {
-        return logser.autho(email,password);
+    public ResponseEntity<LoginModel> autho(@RequestParam String email, @RequestParam String pass) {
+    LoginModel authenticatedUser = logService.autho(email, pass);
+    if (authenticatedUser != null) {
+        return ResponseEntity.ok(authenticatedUser); // Return 200 OK with the user data
+    } else {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null); // Return 401 Unauthorized
     }
-    
 }
 
 
 
+    @GetMapping("/profile")
+    public ResponseEntity<LoginModel> getProfile(@RequestParam String email) {
+        LoginModel profile = logService.getUserProfile(email);
+        if (profile != null) {
+            return ResponseEntity.ok(profile);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
 
+    @PutMapping("/profile")
+    public boolean updateProfile(@RequestBody LoginModel updatedUser) {
+        return logService.updateUserProfile(updatedUser);
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @GetMapping("/users")
+    public List<LoginModel> getAllUser() {
+        return logService.getAllUsers();
+    }
+}

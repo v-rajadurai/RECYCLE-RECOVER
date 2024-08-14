@@ -66,7 +66,7 @@ export const Support =()=>{
                 <br />
                 <p>Eco Connect Head Office, BCM Prime 1st Cross,<br /> BDA Layout, Ghandhipuram Main Rd, New <br /> Ramanathapuram,Ghandhipuram Extension,<br />  Coimbatore, TamilNadu 641008</p>
                 <br />
-                <a href="https://www.google.com/maps/place/Coimbatore,+Tamil+Nadu/@11.0139578,76.8848334,12z/data=!3m1!4b1!4m6!3m5!1s0x3ba859af2f971cb5:0x2fc1c81e183ed282!8m2!3d11.0168445!4d76.9558321!16zL20vMDE5ZmM0?entry=ttu" target="-blank">
+                <a to="https://www.google.com/maps/place/Coimbatore,+Tamil+Nadu/@11.0139578,76.8848334,12z/data=!3m1!4b1!4m6!3m5!1s0x3ba859af2f971cb5:0x2fc1c81e183ed282!8m2!3d11.0168445!4d76.9558321!16zL20vMDE5ZmM0?entry=ttu" target="-blank">
                 Get Direction &gt;
                 </a>
             </div>

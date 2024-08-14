@@ -52,6 +52,9 @@ const Navbar = () => {
           <Link to="/consumerfind">
           <Typography sx={{ fontWeight: '550' }}>Consumer</Typography>
           </Link>
+          {/* <Link to="/consumerfind">
+          <Typography sx={{ fontWeight: '550' }}>ContactUs</Typography>
+          </Link> */}
 
           <Button onClick={handleClick}>
             <Avatar alt="Remy Sharp" src={image} />

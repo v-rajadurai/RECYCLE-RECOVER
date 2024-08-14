@@ -23,7 +23,7 @@ import './ragAbout.css';
 // import Footer from '../footer/Footer';
 import axios from 'axios';
 import Navbar from '../Navbar/Navbar';
-
+import Swal from 'sweetalert2';
 export default function RagAbout() {
   const [formData, setFormData] = React.useState({
     name: '',
@@ -52,6 +52,14 @@ export default function RagAbout() {
           phone: '',
           state: '',
           city: '',
+        });
+        Swal.fire({
+          // position: "top-end",
+          icon: "success",
+          title: "🎉 Submission Successful 🎉",
+          // showConfirmButton: false,
+          text:' Thank you for posting your rag details. We will inform you once a picker accepts your order.',
+          timer:3000
         });
 
         handleOpenSuccessDialog(); // Open the dialog on success
@@ -89,148 +97,7 @@ export default function RagAbout() {
             We&apos;re Eco-Connectors.
           </p>
         </Box>
-        <Box className="rag-join-form">
-          <Box
-            sx={{
-              width: '50%',
-              padding: '1rem',
-              backgroundColor: 'white',
-              borderRadius: '7px',
-            }}
-            component={'form'}
-            onSubmit={handleSubmit}
-          >
-            <h2 style={{ textAlign: 'center' }}>Join as Rag-connector</h2>
-            <TextField
-              id="name"
-              name="name"
-              fullWidth
-              label="Name"
-              type="text"
-              variant="outlined"
-              margin="normal"
-              value={formData.name}
-              onChange={handleChange}
-              required 
-            />
-            <TextField
-              id="email"
-              name="email"
-              fullWidth
-              type="email"
-              label="Email"
-              variant="outlined"
-              margin="normal"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-            <TextField
-              id="phone"
-              name="phone"
-              fullWidth
-              label="Phone"
-              type="tel"
-              inputProps={{ maxLength: 10 }}
-              variant="outlined"
-              margin="normal"
-              required
-              value={formData.phone}
-              onChange={handleChange}
-            />
-            <FormControl fullWidth margin="normal">
-              <InputLabel>State</InputLabel>
-              <Select
-                value={formData.state}
-                onChange={(e) =>
-                  setFormData({ ...formData, state: e.target.value })
-                }
-                label="State"
-                required
-              >
-                  <MenuItem value="Andhra Pradesh">Andhra Pradesh</MenuItem>
-                <MenuItem value="Arunachal Pradesh">Arunachal Pradesh</MenuItem>
-                <MenuItem value="Assam">Assam</MenuItem>
-                <MenuItem value="Bihar">Bihar</MenuItem>
-                <MenuItem value="Chhattisgarh">Chhattisgarh</MenuItem>
-                <MenuItem value="Goa">Goa</MenuItem>
-                <MenuItem value="Gujarat">Gujarat</MenuItem>
-                <MenuItem value="Haryana">Haryana</MenuItem>
-                <MenuItem value="Himachal Pradesh">Himachal Pradesh</MenuItem>
-                <MenuItem value="Jharkhand">Jharkhand</MenuItem>
-                <MenuItem value="Karnataka">Karnataka</MenuItem>
-                <MenuItem value="Kerala">Kerala</MenuItem>
-                <MenuItem value="Madhya Pradesh">Madhya Pradesh</MenuItem>
-                <MenuItem value="Maharashtra">Maharashtra</MenuItem>
-                <MenuItem value="Manipur">Manipur</MenuItem>
-                <MenuItem value="Meghalaya">Meghalaya</MenuItem>
-                <MenuItem value="Mizoram">Mizoram</MenuItem>
-                <MenuItem value="Nagaland">Nagaland</MenuItem>
-                <MenuItem value="Odisha">Odisha</MenuItem>
-                <MenuItem value="Punjab">Punjab</MenuItem>
-                <MenuItem value="Rajasthan">Rajasthan</MenuItem>
-                <MenuItem value="Sikkim">Sikkim</MenuItem>
-                <MenuItem value="Tamil Nadu">Tamil Nadu</MenuItem>
-                <MenuItem value="Telangana">Telangana</MenuItem>
-                <MenuItem value="Tripura">Tripura</MenuItem>
-                <MenuItem value="Uttar Pradesh">Uttar Pradesh</MenuItem>
-                <MenuItem value="Uttarakhand">Uttarakhand</MenuItem>
-                <MenuItem value="West Bengal">West Bengal</MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl fullWidth margin="normal">
-              <InputLabel>City</InputLabel>
-              <Select
-                value={formData.city}
-                onChange={(e) =>
-                  setFormData({ ...formData, city: e.target.value })
-                }
-                label="City"
-                required
-              >
-                {/* List of cities */}
-                <MenuItem value="ariyalur">Ariyalur</MenuItem>
-                <MenuItem value="chennai">Chennai</MenuItem>
-                <MenuItem value="coimbatore">Coimbatore</MenuItem>
-                <MenuItem value="cuddalore">Cuddalore</MenuItem>
-                <MenuItem value="dharmapuri">Dharmapuri</MenuItem>
-                <MenuItem value="dindigul">Dindigul</MenuItem>
-                <MenuItem value="erode">Erode</MenuItem>
-                <MenuItem value="kanchipuram">Kanchipuram</MenuItem>
-                <MenuItem value="kanyakumari">Kanyakumari</MenuItem>
-                <MenuItem value="karur">Karur</MenuItem>
-                <MenuItem value="krishnagiri">Krishnagiri</MenuItem>
-                <MenuItem value="madurai">Madurai</MenuItem>
-                <MenuItem value="nagapattinam">Nagapattinam</MenuItem>
-                <MenuItem value="namakkal">Namakkal</MenuItem>
-                <MenuItem value="perambalur">Perambalur</MenuItem>
-                <MenuItem value="pudukkottai">Pudukkottai</MenuItem>
-                <MenuItem value="ramanathapuram">Ramanathapuram</MenuItem>
-                <MenuItem value="salem">Salem</MenuItem>
-                <MenuItem value="sivaganga">Sivaganga</MenuItem>
-                <MenuItem value="thanjavur">Thanjavur</MenuItem>
-                <MenuItem value="theni">Theni</MenuItem>
-                <MenuItem value="thoothukudi">Thoothukudi</MenuItem>
-                <MenuItem value="tiruchirappalli">Tiruchirappalli</MenuItem>
-                <MenuItem value="tirunelveli">Tirunelveli</MenuItem>
-                <MenuItem value="tiruppur">Tiruppur</MenuItem>
-                <MenuItem value="trichy">Trichy</MenuItem>
-                <MenuItem value="vellore">Vellore</MenuItem>
-                <MenuItem value="viluppuram">Viluppuram</MenuItem>
-                <MenuItem value="virudhunagar">Virudhunagar</MenuItem>                {/* Other cities */}
-              </Select>
-            </FormControl>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              sx={{ width: '10rem', fontSize: 18 }}
-            >
-              Join
-            </Button>
-          </Box>
-        </Box>
-      </Box>
+            </Box>
       <Box
         sx={{
           width: '100%',

@@ -16,8 +16,8 @@ public class SigninController {
     private SigninService signin;
 
     @GetMapping("/auth")
-    public boolean autho(@RequestParam String email,@RequestParam String password )
+    public boolean autho(@RequestParam String email,@RequestParam String pass )
     {
-        return signin.autho(email,password);
+        return signin.autho(email,pass);
     } 
 }

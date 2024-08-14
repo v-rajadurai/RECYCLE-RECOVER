@@ -5,22 +5,22 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { useMediaQuery, InputAdornment, Snackbar, Alert } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Grid from "@mui/material/Grid";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import NightsStayIcon from "@mui/icons-material/NightsStay";
-import Recycle from "../Authorization/rr.webp";
+import Recycle from "../Authorization/rr.jpg"; // Adjust the path as needed
 import axios from "axios";
-
+import { useAuth } from "../../AuthContext";
 export default function ConsumerSignIn() {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const [darkMode, setDarkMode] = useState(prefersDarkMode);
@@ -28,12 +28,18 @@ export default function ConsumerSignIn() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
-
+  const nav=useNavigate();
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const theme = React.useMemo(
+  // Define toggleDarkMode function
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
+  // Define theme using useMemo
+  const theme = useMemo(
     () =>
       createTheme({
         palette: {
@@ -51,27 +57,26 @@ export default function ConsumerSignIn() {
       }),
     [darkMode]
   );
+  const { login } = useAuth();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
     const email = data.get("email");
-    const password = data.get("password");
-
+    const pass = data.get("password");
+    
     try {
-      const response = await axios.get("http://localhost:8080/login/auth", {
-        params: {
-          email: email,
-          password: password,
-        },
+      const response = await axios.get("http://localhost:8080/api/auth", {
+        params: { email, pass }
       });
 
-      if (response.data === true) {
-        setSnackbarMessage("Login successfully");
+      if (response.status === 200) {
+        setSnackbarMessage("Login successful");
         setSnackbarSeverity("success");
+        login({email,pass});
         setTimeout(() => {
-          window.location.href = "/consumerhome";
+          nav("/consumerprofile");
         }, 1500);
       } else {
         setSnackbarMessage("Invalid username or password");
@@ -83,10 +88,6 @@ export default function ConsumerSignIn() {
     } finally {
       setSnackbarOpen(true);
     }
-  };
-
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
   };
 
   const handleSnackbarClose = (event, reason) => {
@@ -189,14 +190,11 @@ export default function ConsumerSignIn() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                {/* <Link href="/consumerhome"> */}
                 Sign In
-                {/* </Link> */}
-                
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link to="#" variant="body2">
                     Forgot password?
                   </Link>
                 </Grid>
@@ -214,9 +212,13 @@ export default function ConsumerSignIn() {
         open={snackbarOpen}
         autoHideDuration={6000}
         onClose={handleSnackbarClose}
-        sx={{ zIndex: (theme) => theme.zIndex.snackbar + 1 }} // Ensure Snackbar is above other content
+        sx={{ zIndex: (theme) => theme.zIndex.snackbar + 1 }}
       >
-        <Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: "100%" }}>
+        <Alert
+          onClose={handleSnackbarClose}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
           {snackbarMessage}
         </Alert>
       </Snackbar>

@@ -1,67 +1,206 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './consumerProfile.css';
-import image from '../../../assets/profile.jpg'
-
+import image from '../../../assets/profile.jpg';
+import Navbar from '../Navbar/Navbar';
+import { useAuth } from '../../AuthContext';
+ // Adjust the import path
+import { Alert ,Stack} from '@mui/material';
 const ConsumerProfile = () => {
-    // const [profile, setProfile] = useState(null);
-    // const [loading, setLoading] = useState(true);
-    // const [error, setError] = useState(null);
+  const { user, login } = useAuth();
+  const [profile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [editMode, setEditMode] = useState(false);
+  const [formData, setFormData] = useState({});
+  const [alert, setAlert] = useState(null);
+  useEffect(() => {
+    console.log(user);
+    console.log(user);
+    console.log(user);
+    console.log(user);
+    console.log(user);
+    console.log(user);
+    console.log(user);
+    console.log(user);
+    console.log(user);
+    console.log(user);
+    console.log(user);
+    console.log(user);
+    const fetchProfile = async () => {
+      if (!user?.email) return;
 
-    // useEffect(() => {
-    //     const fetchProfile = async () => {
-    //         try {
-    //             const response = await axios.get('http://localhost:8080/ecoconnect/getRags', {
-    //                 params: { email: 'nambu@gmail.com' } // This line is required if you still want to use query params
-    //             });
-    //             console.log(response);
-                
-    //             // setProfile(response.data[0]);
-    //         } catch (err) {
-    //             setError('Please! join as eco connector');
-    //             console.error('Error fetching profile:', err);
-    //         } finally {
-    //             setLoading(false);
-    //         }
-    //     };
+      try {
+        const response = await axios.get('http://localhost:8080/api/profile', {
+          params: { email: user.email }
+        });
 
-    //     fetchProfile();
-    // }, []);
+        console.log('Profile data:', response.data);
+        
 
-    // // Uncomment these lines if you want to handle loading and error states
-    // if (loading) return <p>Loading...</p>;
-    // if (error) return <p>{error}</p>;
+        setProfile(response.data);
+        setFormData(response.data);
+        login(response.data)
+        setLoading(false);
+      } catch (error) {
+        setError('Error fetching profile data.');
+        console.error('Error fetching profile data:',error);
+      } 
+    };
 
-    // if (!profile) return <p>No profile data available.</p>;
+    fetchProfile();
+  }, []);
 
-    return (
-        <>
-            {/* <Navbar /> */}
-            <div className="profile-container">
-                <div className="profile-header">
-                    <img src={image} alt="Profile" className="profile-picture" />
-                </div>
-                <div className="profile-content">
-                    <h2>Personal Information</h2>
-                    <div className="info-group">
-                        <h3>Name: nambu</h3>
-                    </div>
-                    <div className="info-group">
-                        <h3>Email: nambu@gmail.com</h3>
-                    </div>
-                    <div className="info-group">
-                        <h3>Phone: 7654748494</h3>
-                    </div>
-                    <div className="info-group">
-                        <h3>State: Tamilnadu</h3>
-                    </div>
-                    <div className="info-group">
-                        <h3>City: Ramanadhapuram</h3>
-                    </div>
-                </div>
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevData => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+
+  const handleSave = async () => { 
+    try {
+      await axios.put('http://localhost:8080/api/profile', {
+        email: formData.email,
+        pass: formData.password,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phone: formData.phone,
+        address: formData.address,
+        city: formData.city,
+        state: formData.state
+      });
+      setProfile(formData);
+      setEditMode(false);
+      setAlert('Changes are saved in profile.');
+    } catch (error) {
+      setError('Error updating profile data.');
+      console.error('Error updating profile data:', error.response ? error.response.data : error.message);
+    }
+  };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+
+  if (!profile) return <div>No profile data available</div>;
+
+  return (
+    <>
+      <Navbar />
+      <div className="profile-container">
+        <div className="profile-header">
+          <img src={image} alt="Profile" className="profile-picture" />
+          {/* <button onClick={() => setEditMode(prevMode => !prevMode)}>
+            {editMode ? 'Cancel' : 'Edit'}
+            </button> */}
+        </div>
+        <div className="profile-content">
+          <div>
+            {alert && (
+               <Stack sx={{ width: '100%' }} spacing={2}>
+  
+              <Alert severity="success" onClose={() => setAlert(null)} >{alert}</Alert>
+               </Stack>
+            )}
+
+          </div>
+        <div className="header-and-button">
+            <h2>Personal Information</h2>
+            <button className="edit-button" onClick={() => setEditMode(prevMode => !prevMode)}>
+              {editMode ? 'Cancel' : 'Edit'}
+            </button>
+          </div>
+          {editMode ? (
+            <div className="info-group">
+              <label>
+                First Name:
+                <input
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                />
+              </label>
+              <label>
+                Last Name:
+                <input
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                />
+              </label>
+              <label>
+                Email:
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  readOnly
+                />
+              </label>
+              <label>
+                Password:
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password || ''}
+                  onChange={handleChange}
+                />
+              </label>
+              <label>
+                Phone:
+                <input
+                  type="text"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                />
+              </label>
+              <label>
+                Address:
+                <input
+                  type="text"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleChange}
+                />
+              </label>
+              <label>
+                State:
+                <input
+                  type="text"
+                  name="state"
+                  value={formData.state}
+                  onChange={handleChange}
+                />
+              </label>
+              <label>
+                City:
+                <input
+                  type="text"
+                  name="city"
+                  value={formData.city}
+                  onChange={handleChange}
+                />
+              </label>
+              <button onClick={handleSave} style={{color:"white",backgroundColor:"#000000"}}>Save</button>
             </div>
-        </>
-    );
+          ) : (
+            <div className="info-group">
+              <h3>Name: {profile.firstName} {profile.lastName}</h3>
+              <h3>Email: {profile.email}</h3>
+              <h3>Phone: {profile.phone}</h3>
+              <h3>Address: {profile.address}</h3>
+              <h3>State: {profile.state}</h3>
+              <h3>City: {profile.city}</h3>
+            </div>
+          )}
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default ConsumerProfile;

@@ -44,7 +44,7 @@ const Navbar = () => {
           <Typography sx={{ fontWeight: '550' }}>Home</Typography>
           </Link>
           <Link to="/ragabout">
-          <Typography sx={{ fontWeight: '550' }}>RagPicker</Typography>
+          <Typography sx={{ fontWeight: '550' }}>About</Typography>
           </Link>
           <Link to="/ragservice">
           <Typography sx={{ fontWeight: '550' }}>Service</Typography>

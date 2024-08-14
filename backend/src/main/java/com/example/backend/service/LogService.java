@@ -6,28 +6,50 @@ import org.springframework.stereotype.Service;
 import com.example.backend.model.LoginModel;
 import com.example.backend.repository.LogRepo;
 
+import java.util.List;
+
 @Service
 public class LogService {
     @Autowired
-    private LogRepo logrep;
+    private LogRepo logRepo;
 
-    public boolean saveLogin(LoginModel log) {
+    public boolean registerUser(LoginModel log) {
         try {
-            logrep.save(log);
+            logRepo.save(log);
             return true;
-        } catch (Exception e) 
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
-    public boolean autho( String email, String password) {
-        LoginModel foundUser = logrep.findById(email).orElse(null);
-        if (foundUser != null && foundUser.getPass().equals(password)) {
-            System.out.println("Found User");
-            return true; 
+
+    public LoginModel autho(String email, String pass) {
+        LoginModel foundUser = logRepo.findById(email).orElse(null);
+        if (foundUser != null && foundUser.getPass().equals(pass)) {
+            return foundUser; // Return the user if authentication is successful
         }
-        System.out.println("Found NOt User, " + foundUser);
-        return false; 
+        return null; // Return null if authentication fails
+    }
+    
+
+    public LoginModel getUserProfile(String email) {
+        return logRepo.findById(email).orElse(null);
+    }
+
+    public boolean updateUserProfile(LoginModel updatedUser) {
+        if (logRepo.existsById(updatedUser.getEmail())) {
+            try {
+                logRepo.save(updatedUser);
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public List<LoginModel> getAllUsers() {
+        return logRepo.findAll();
     }
 }

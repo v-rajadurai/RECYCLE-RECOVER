@@ -1,48 +1,43 @@
-.welcome-container {
+.frontpage-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start; /* Align content to the left */
     align-items: center;
     height: 100vh;
-    padding: 0 50px;
-    background-color: #f0f0f0;
+    padding: 10px 50px;
+    background-image: url('/images/DeWatermark.ai_1723608030530.png'); /* Path to your background image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: rgb(0, 0, 0); /* Adjust text color for better visibility */
   }
   
-  .welcome-text {
-    width: 40%;
-    text-align: justify;
+  .content-container {
+    max-width: 40%;
+    background-color: rgba(175, 171, 171, 0.808); /* Optional: add a semi-transparent background for better readability */
+    padding: 20px;
+    border-radius: 10px;
   }
   
-  .welcome-text h1 {
-    font-size: 2.5em;
-    margin-bottom: 20px;
+  .content-container h1 {
+    font-size: 2.5rem;
+    color: #ffffff; /* Adjust text color for better visibility */
   }
   
-  .welcome-text p {
-    font-size: 1.2em;
+  .content-container p {
+    font-size: 1.2rem;
+    color: #fafafa; /* Adjust text color for better visibility */
+    margin: 20px 0;
   }
   
-  .welcome-image {
-    width: 40vh;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .welcome-image img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-  }
-  .but {
-    margin-bottom: 2rem;
-    margin-left: 2rem;
-    background-color: cornflowerblue;
-  }
-  .solid
-  {
-      background-color: cornflowerblue;
-  }
-  .change {
+  .button-group {
     margin-top: 20px;
   }
+  
+  .button-group a {
+    margin-right: 30px;
+  }
+  
+  .image-container {
+    display: none; /* Hide the original image as it's now used as a background */
+  }
+  

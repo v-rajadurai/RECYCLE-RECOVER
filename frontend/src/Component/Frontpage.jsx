@@ -1,44 +1,27 @@
-import React from "react";
-import "./frontPage.css";
-import { Link } from "react-router-dom";
-import { Button } from "@mui/material";
-import tree from "./tree.jpg"
-export default function FrontPage() {
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Button } from '@mui/material';
+import './frontPage.css';
+
+const FrontPage = () => {
   return (
-    <div className="welcome-container " style={{display:'flex',justifyContent:'space-evenly'}}>
-      <div className="welcome-text">
-        <h1>Welcome to Our Website!</h1>
+    <div className="frontpage-container">
+      <div className="content-container">
+        <h1>Recycle & Recover</h1>
         <p>
-          We connect individuals directly with certified recyclers to
-          responsibly dispose of e-waste.
-          {/* <br /> */}
-          Join us in our mission to protect the environment and conserve
-          resources for future generations.
+          Bridge the gap between consumers and rag pickers for easy recycling. Post details about recyclable materials, and rag pickers can accept them.
         </p>
-        <div className="change" >
-        <Link to="/consumersignin" style={{}}>
-          <Button variant="contained" sx={{ fontWeight: '550',gap:'10px',marginRight:"10px" }}>consumer</Button>
+        <div className="button-group">
+          <Link to="/consumersignin">
+            <Button variant="contained">Consumer</Button>
           </Link>
           <Link to="/signin">
-          <Button variant="contained" sx={{ fontWeight: '550' }}>ragPicker</Button>
+            <Button variant="contained">RagPicker</Button>
           </Link>
-      </div>
         </div>
-
-      <div className="welcome-image">
-        <img
-          src={tree}
-          alt="Loading"
-          style={{
-            width: "100%",
-            height: "50vh",
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        />
       </div>
-     
     </div>
   );
-}
+};
+
+export default FrontPage;

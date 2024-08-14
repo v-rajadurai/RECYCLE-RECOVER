@@ -13,22 +13,23 @@ import {
   Grid,
 } from "@mui/material";
 import axios from 'axios';
+import Swal from 'sweetalert2'
 // import "./ragPaper.css";
-
+import { useAuth } from "../../AuthContext";
 const Picker = () => {
   const [estimatedvalue, setEstimatedvalue] = useState(0);
-  const [email, setEmail] = useState("");
-  const [phn, setPhn] = useState("");
-  const [fname, setFName] = useState("");
-  const [lname, setLName] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [phn, setPhn] = useState("");
+  // const [fname, setFName] = useState("");
+  // const [lname, setLName] = useState("");
+  // const [address, setAddress] = useState("");
+  // const [city, setCity] = useState("");
+  // const [state, setState] = useState("");
+  const {user}=useAuth();  
   const [quantity, setQuantity] = useState('');
   const [ragselect, setRagselect] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
-
   const handleClick = () => {
     setOpenDialog(true);
   };
@@ -41,6 +42,47 @@ const Picker = () => {
     setSuccessDialogOpen(false);
   };
 
+  useEffect(() => {
+    console.log(user);
+    console.log(user);
+    console.log(user);
+    console.log(user);
+    console.log(user);
+    console.log(user);
+    console.log(user);
+    console.log(user);
+    console.log(user);
+    console.log(user);
+    console.log(user);
+    console.log(user);
+    const fetchProfile = async () => {
+      if (!user?.email) return;
+
+      try {
+        const response = await axios.get('http://localhost:8080/api/profile', {
+          params: { email: user.email }
+        });
+
+        console.log('Profile data:', response.data);
+        
+
+        
+      } catch (error) {
+        
+        console.error('Error fetching profile data:',error);
+      } 
+    };
+
+    fetchProfile();
+  }, [user]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevData => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
   useEffect(() => {
     // Calculate estimated value based on quantity and rag type
     switch (ragselect) {
@@ -68,10 +110,10 @@ const Picker = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = {
-      name: fname + ' ' + lname,
-      email: email,
-      phone: phn,
-      address: address + ', ' + city + ', ' + state,
+      name: user.firstName + " " + user.lastName, 
+      email: user.email,
+      phone: user.phone,
+      address: user.address+" "+user.city+" "+user.state,
       ragType: ragselect,
       quantity: quantity,
       estimatedAmount: estimatedvalue,
@@ -82,19 +124,23 @@ const Picker = () => {
       .then(response => {
         console.log(response.data);
         setSuccessDialogOpen(true);
-        setFName("");
-        setLName("");
-        setEmail("");
-        setPhn("");
-        setAddress("");
-        setCity("");
-        setState("");
+        
         setQuantity('');
         setRagselect("");
         setEstimatedvalue(0); // Open success dialog on successful submission
+        Swal.fire({
+          // position: "top-end",
+          icon: "success",
+          title: "🎉 Submission Successful 🎉",
+          showConfirmButton: false,
+          text:' Thank you for posting your rag details. We will inform you once a picker accepts your order.',
+          timer:3000
+          
+        });
       })
       .catch(error => {
         console.error('Error:', error);
+        
         // Handle error or show error message
       });
 
@@ -102,22 +148,22 @@ const Picker = () => {
   };
 
   // Array of cities
-  const cities = [
-    "Ariyalur", "Chennai", "Coimbatore", "Cuddalore", "Dharmapuri", "Dindigul",
-    "Erode", "Kanchipuram", "Kanyakumari", "Karur", "Krishnagiri", "Madurai",
-    "Nagapattinam", "Namakkal", "Perambalur", "Pudukkottai", "Ramanathapuram",
-    "Salem", "Sivaganga", "Thanjavur", "Theni", "Thoothukudi", "Tiruchirappalli",
-    "Tirunelveli", "Tiruppur", "Trichy", "Vellore", "Viluppuram", "Virudhunagar"
-  ];
+  // const cities = [
+  //   "Ariyalur", "Chennai", "Coimbatore", "Cuddalore", "Dharmapuri", "Dindigul",
+  //   "Erode", "Kanchipuram", "Kanyakumari", "Karur", "Krishnagiri", "Madurai",
+  //   "Nagapattinam", "Namakkal", "Perambalur", "Pudukkottai", "Ramanathapuram",
+  //   "Salem", "Sivaganga", "Thanjavur", "Theni", "Thoothukudi", "Tiruchirappalli",
+  //   "Tirunelveli", "Tiruppur", "Trichy", "Vellore", "Viluppuram", "Virudhunagar"
+  // ];
 
-  // Array of states
-  const states = [
-    "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
-    "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka",
-    "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram",
-    "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana",
-    "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
-  ];
+  // // Array of states
+  // const states = [
+  //   "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
+  //   "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka",
+  //   "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram",
+  //   "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana",
+  //   "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
+  // ];
 
   return (
     <>
@@ -145,13 +191,13 @@ const Picker = () => {
         <DialogContent>
           <form onSubmit={handleSubmit}>
             <Grid container spacing={2}>
-              <Grid item xs={6}>
+              {/* <Grid item xs={6}>
                 <TextField
                   fullWidth
                   label="First Name"
                   value={fname}
                   onChange={(e) => setFName(e.target.value)}
-                  required
+                  //required
                 />
               </Grid>
               <Grid item xs={6}>
@@ -160,7 +206,7 @@ const Picker = () => {
                   label="Last Name"
                   value={lname}
                   onChange={(e) => setLName(e.target.value)}
-                  required
+                  //required
                 />
               </Grid>
               <Grid item xs={6}>
@@ -170,7 +216,7 @@ const Picker = () => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  required
+                  //required
                 />
               </Grid>
               <Grid item xs={6}>
@@ -180,7 +226,7 @@ const Picker = () => {
                   type="phone"
                   value={phn}
                   onChange={(e) => setPhn(e.target.value)}
-                  required
+                  //required
                   inputProps={{ maxLength: 10 }}
                 />
               </Grid>
@@ -190,7 +236,7 @@ const Picker = () => {
                   label="Address"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  required
+                  //required
                 />
               </Grid>
               <Grid item xs={6}>
@@ -200,7 +246,7 @@ const Picker = () => {
                     value={state}
                     onChange={(e) => setState(e.target.value)}
                     label="State"
-                    required
+                    //required
                   >
                     {states.map((state) => (
                       <MenuItem key={state} value={state}>{state}</MenuItem>
@@ -215,14 +261,14 @@ const Picker = () => {
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                     label="City"
-                    required
+                    //required
                   >
                     {cities.map((city) => (
                       <MenuItem key={city} value={city}>{city}</MenuItem>
                     ))}
                   </Select>
                 </FormControl>
-              </Grid>
+              </Grid> */}
               <Grid item xs={12}>
                 <FormControl fullWidth>
                   <InputLabel>Rag-Type</InputLabel>
@@ -276,7 +322,7 @@ const Picker = () => {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={successDialogOpen} onClose={handleCloseSuccessDialog}>
+      {/* <Dialog open={successDialogOpen} onClose={handleCloseSuccessDialog}>
         <DialogTitle>🎉 Submission Successful 🎉</DialogTitle>
         <DialogContent>
           Thank you for posting your rag details. We will inform you once a picker accepts your order.
@@ -284,7 +330,7 @@ const Picker = () => {
         <DialogActions>
           <Button onClick={handleCloseSuccessDialog}>Close</Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
     </>
   );
 };

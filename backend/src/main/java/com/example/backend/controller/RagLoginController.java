@@ -25,7 +25,6 @@ public class RagLoginController {
     public boolean postMethodName(@RequestBody RagLogin login) {
         return loginService.saveLogin(login);
     }
-
     @GetMapping("/login")
     public List<RagLogin> getRagsDetails() {
         return loginService.getLoginAll();
